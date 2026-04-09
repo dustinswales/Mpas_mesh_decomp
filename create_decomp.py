@@ -5,19 +5,22 @@ import argparse
 
 #
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--decomps', help='MPI decompositions, separated by a space', nargs='*', type=int, required=False)
+parser.add_argument('-d', '--decomps', help='MPI decompositions, separated by a space', nargs='*', type=int, required=True)
+parser.add_argument('-m', '--mesh',    help='mesh',type=int,required=True)
 #
 def parse_args():
     args    = parser.parse_args()
     decomps = args.decomps
-    return decomps
+    mesh    = args.mesh
+    return (mesh, decomps)
 #
 def main():
 #
-    (decomps) = parse_args()
-    print("SWALES",decomps)
+    (mesh, decomps) = parse_args()
     for decomp in decomps:
-        print("gpmetis -minconn -contig -niter=200 x1.${{matrix.mesh}}.graph.info ",decomp)
+        com = "gpmetis -minconn -contig -niter=200 x1."+mesh+".graph.info "+decomp
+        print(com)
+        os.system(com)
     # end for
 #
 if __name__ == '__main__':
