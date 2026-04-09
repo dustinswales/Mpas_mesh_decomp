@@ -28,15 +28,15 @@ jobs:
           key: cache-GKlib-key
 
       - name: Configure and Build GKlib
-        if: steps.cache-GKlib.outputs.cache-hit != 'true'
+        if: steps.cache-GKlib.outputs.cache-hit != 'false'
         run: |
           git clone https://github.com/KarypisLab/GKlib.git
           cd GKlib
           make config prefix=/home/runner/
           make
           make install
-          echo "LD_LIBRARY_PATH=/GKlib/runner/METIS/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "PATH=/home/runner/GKlib/bin:$PATH" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
 
       - name: Cache METIS
         id: cache-METIS
@@ -46,15 +46,15 @@ jobs:
           key: cache-METIS-key
  
       - name: Configure and Build METIS
-        if: steps.cache-METIS.outputs.cache-hit != 'true'
+        if: steps.cache-METIS.outputs.cache-hit != 'false'
         run: |
           git clone https://github.com/KarypisLab/METIS.git
           cd METIS
           make config cc=gcc prefix=/home/runner/ gklib_path=/home/runner/
           make
           make install
-          echo "LD_LIBRARY_PATH=/home/runner/METIS/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "PATH=/home/runner/METIS/bin:$PATH" >> $GITHUB_ENV
+          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
 
       - name: Display lib
         run: |
