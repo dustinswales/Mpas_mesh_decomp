@@ -51,7 +51,6 @@ jobs:
       - name: Display
         run: |
           ls /home/runner/
-          where gpmetis
 
       - name: Download MPAS static file
         run: |
