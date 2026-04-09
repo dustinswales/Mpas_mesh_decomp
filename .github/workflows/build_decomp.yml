@@ -57,19 +57,9 @@ jobs:
           make
           make install
 
-      - name: Display lib
+      - name: Display decomps
         run: |
-          ls /home/runner/lib
-
-      - name: Display bin
-        run: |
-          ls /home/runner/bin
-
-      - name: Display PATH
-        run: |
-          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
-          echo $PATH
+          ${{matrix.decomps}}
 
       - name: Download MPAS static file
         run: |
