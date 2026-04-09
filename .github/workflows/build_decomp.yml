@@ -76,5 +76,7 @@ jobs:
       - name: Create decompositions
         run: |
           gpmetis -minconn -contig -niter=200 x1.${{matrix.mesh}}.graph.info 12
+          pwd
           cd ../../
-          ./create_decomp.py -d ${{matrix.decomps}}
+          ls
+#          ./create_decomp.py -d ${{matrix.decomps}}
