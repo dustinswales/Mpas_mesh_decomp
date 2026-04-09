@@ -57,6 +57,12 @@ jobs:
           make
           make install
 
+      - name: Display PATH
+        run: |
+          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
+          echo $PATH
+
       - name: Download MPAS static file
         run: |
           wget -q https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.${{matrix.mesh}}_static.tar.gz
@@ -70,5 +76,5 @@ jobs:
       - name: Create decompositions
         run: |
           gpmetis -minconn -contig -niter=200 x1.${{matrix.mesh}}.graph.info 12
-#          cd ../../
-#          ./create_decomp.py -d ${{matrix.decomps}}
+          cd ../../
+          ./create_decomp.py -d ${{matrix.decomps}}
