@@ -29,7 +29,7 @@ jobs:
         id: cache-GKlib
         uses: actions/cache@v4
         with:
-          path: /home/runner/GKlib
+          path: /home/runner/lib
           key: cache-GKlib-key
 
       - name: Configure and Build GKlib
@@ -45,7 +45,7 @@ jobs:
         id: cache-METIS
         uses: actions/cache@v4
         with:
-          path: /home/runner/METIS
+          path: /home/runner/lib
           key: cache-METIS-key
  
       - name: Configure and Build METIS
