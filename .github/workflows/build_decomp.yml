@@ -68,9 +68,9 @@ jobs:
 
       - name: Download MPAS static file
         run: |
-          wget https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.40962_static.tar.gz
+          wget -q https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.40962_static.tar.gz
           tar -xvf x1.40962_static.tar.gz
 
       - name: Create decompositions
         run: |
-          gpmetis -minconn -contig -niter=200 data/x1.40962.graph.info 12
+          gpmetis -minconn -contig -niter=200 x1.40962.graph.info 12
