@@ -20,11 +20,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake build-essential
 
-      - name: Clone GKlib Source
-        run: |
-          git clone https://github.com/KarypisLab/GKlib.git
-          cd GKlib
-
       - name: Cache GKlib
         id: cache-GKlib
         uses: actions/cache@v4
@@ -35,6 +30,7 @@ jobs:
       - name: Configure and Build GKlib
         if: steps.cache-GKlib.outputs.cache-hit != 'true'
         run: |
+	  git clone https://github.com/KarypisLab/GKlib.git
           cd GKlib
           make config prefix=/home/runner/
           make
@@ -42,13 +38,17 @@ jobs:
           echo "LD_LIBRARY_PATH=/GKlib/runner/METIS/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
           echo "PATH=/home/runner/GKlib/bin:$PATH" >> $GITHUB_ENV
 
-      - name: Clone METIS Source
+      - name: Cache METIS
+        id: cache-METIS
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/METIS
+          key: cache-METIS-key
+ 
+      - name: Configure and Build METIS
+        if: steps.cache-METIS.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/KarypisLab/METIS.git
-          cd METIS
-
-      - name: Configure and Build METIS
-        run: |
           cd METIS
           make config cc=gcc prefix=/home/runner/ gklib_path=/home/runner/
           make
