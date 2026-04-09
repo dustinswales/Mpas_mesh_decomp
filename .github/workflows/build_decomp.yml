@@ -30,7 +30,7 @@ jobs:
       - name: Configure and Build GKlib
         if: steps.cache-GKlib.outputs.cache-hit != 'true'
         run: |
-	  git clone https://github.com/KarypisLab/GKlib.git
+          git clone https://github.com/KarypisLab/GKlib.git
           cd GKlib
           make config prefix=/home/runner/
           make
@@ -56,9 +56,17 @@ jobs:
           echo "LD_LIBRARY_PATH=/home/runner/METIS/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
           echo "PATH=/home/runner/METIS/bin:$PATH" >> $GITHUB_ENV
 
-      - name: Display
+      - name: Display lib
         run: |
-          ls /home/runner/
+          ls /home/runner/lib
+
+      - name: Display bin
+	run: |
+          ls /home/runner/bin
+
+      - name: Display PATH
+	run: |
+          echo $PATH
 
       - name: Download MPAS static file
         run: |
