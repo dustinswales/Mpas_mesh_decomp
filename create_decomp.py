@@ -11,7 +11,7 @@ parser.add_argument('-m', '--mesh',    help='mesh',type=int,required=True)
 def parse_args():
     args    = parser.parse_args()
     decomps = args.decomps
-    mesh    = args.mesh
+    mesh    = str(args.mesh)
     return (mesh, decomps)
 #
 def main():
