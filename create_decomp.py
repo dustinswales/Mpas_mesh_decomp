@@ -16,6 +16,9 @@ def main():
 #
     (decomps) = parse_args()
 
+    for decomp in decomps:
+        print("gpmetis -minconn -contig -niter=200 x1.${{matrix.mesh}}.graph.info ",decomp)
+    # end for
 #
 if __name__ == '__main__':
     main()
