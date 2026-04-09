@@ -82,6 +82,10 @@ jobs:
 
       - name: Create decompositions
         run: |
-          pwd
           ./create_decomp.py -m ${{matrix.mesh}} -d ${{matrix.decomps}}
-          ls
+
+      - name: Upload MPAS decompositions as GitHub Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: x1.${{matrix.mesh}}.graph.info.tar
+          path: /home/runner/work/Mpas_mesh_decomp/Mpas_mesh_decomp/x1.${{matrix.mesh}}.graph.info.tar

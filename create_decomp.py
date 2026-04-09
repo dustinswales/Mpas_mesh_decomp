@@ -19,13 +19,11 @@ def main():
     (mesh, decomps) = parse_args()
     for decomp in decomps:
         com = "gpmetis -minconn -contig -niter=200 x1."+str(mesh)+".graph.info "+str(decomp)
-        print(com)
         result = os.system(com)
     # end for
 
     # Create tarball with graph files
-    com = "tar -cvf graph.info."+str(mesh)+".tar graph.info.*"
-    print(com)
+    com = "tar -cvf x1."+str(mesh)+".graph.info.tar x1."+str(mesh)+".graph.info.*"
     result = os.system('tar -cvf graph.info.tar graph.info.*')
 #
 if __name__ == '__main__':
