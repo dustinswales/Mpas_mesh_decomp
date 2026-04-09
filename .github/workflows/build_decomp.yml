@@ -28,15 +28,13 @@ jobs:
           key: cache-GKlib-key
 
       - name: Configure and Build GKlib
-        if: steps.cache-GKlib.outputs.cache-hit != 'false'
+        if: steps.cache-GKlib.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/KarypisLab/GKlib.git
           cd GKlib
           make config prefix=/home/runner/
           make
           make install
-          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
 
       - name: Cache METIS
         id: cache-METIS
@@ -46,15 +44,13 @@ jobs:
           key: cache-METIS-key
  
       - name: Configure and Build METIS
-        if: steps.cache-METIS.outputs.cache-hit != 'false'
+        if: steps.cache-METIS.outputs.cache-hit != 'true'
         run: |
           git clone https://github.com/KarypisLab/METIS.git
           cd METIS
           make config cc=gcc prefix=/home/runner/ gklib_path=/home/runner/
           make
           make install
-          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
-          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
 
       - name: Display lib
         run: |
@@ -66,6 +62,8 @@ jobs:
 
       - name: Display PATH
         run: |
+          echo "LD_LIBRARY_PATH=/home/runner/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "PATH=/home/runner/bin:$PATH" >> $GITHUB_ENV
           echo $PATH
 
       - name: Download MPAS static file
@@ -73,6 +71,6 @@ jobs:
           wget https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.40962_static.tar.gz
           tar -xvf x1.40962_static.tar.gz
 
-#      - name: Create decompositions
-#        run: |
-#          gpmetis -minconn -contig -niter=200 data/x1.40962.graph.info 12
+      - name: Create decompositions
+        run: |
+          gpmetis -minconn -contig -niter=200 data/x1.40962.graph.info 12
