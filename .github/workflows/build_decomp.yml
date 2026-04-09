@@ -25,7 +25,15 @@ jobs:
           git clone https://github.com/KarypisLab/GKlib.git
           cd GKlib
 
+      - name: Cache GKlib
+        id: cache-GKlib
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/GKlib
+          key: cache-GKlib-key
+
       - name: Configure and Build GKlib
+        if: steps.cache-GKlib.outputs.cache-hit != 'true'
         run: |
           cd GKlib
           make config prefix=/home/runner/
@@ -57,6 +65,6 @@ jobs:
           wget https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.40962_static.tar.gz
           tar -xvf x1.40962_static.tar.gz
 
-      - name: Create decompositions
-        run: |
-          gpmetis -minconn -contig -niter=200 data/x1.40962.graph.info 12
+#      - name: Create decompositions
+#        run: |
+#          gpmetis -minconn -contig -niter=200 data/x1.40962.graph.info 12
