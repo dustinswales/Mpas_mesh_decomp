@@ -31,6 +31,8 @@ jobs:
           make config prefix=/home/runner/
           make
           make install
+          echo "LD_LIBRARY_PATH=/GKlib/runner/METIS/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "PATH=/home/runner/GKlib/bin:$PATH" >> $GITHUB_ENV
 
       - name: Clone METIS Source
         run: |
@@ -43,7 +45,19 @@ jobs:
           make config cc=gcc prefix=/home/runner/ gklib_path=/home/runner/
           make
           make install
+          echo "LD_LIBRARY_PATH=/home/runner/METIS/lib:$LD_LIBRARY_PATH" >> $GITHUB_ENV
+          echo "PATH=/home/runner/METIS/bin:$PATH" >> $GITHUB_ENV
 
       - name: Display
         run: |
           ls /home/runner/
+          where gpmetis
+
+      - name: Download MPAS static file
+        run: |
+          wget https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.40962_static.tar.gz
+          tar -xvf x1.40962_static.tar.gz
+
+      - name: Create decompositions
+        run: |
+          gpmetis -minconn -contig -niter=200 data/x1.40962.graph.info 12
