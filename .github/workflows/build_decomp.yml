@@ -10,7 +10,9 @@ on:
 jobs:
   build-metis:
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        mesh: [2562, 4002, 10242, 40962]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -68,9 +70,9 @@ jobs:
 
       - name: Download MPAS static file
         run: |
-          wget -q https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.40962_static.tar.gz
-          tar -xvf x1.40962_static.tar.gz
+          wget -q https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.${{matrix.mesh}}_static.tar.gz
+          tar -xvf x1.${{matrix.mesh}}_static.tar.gz
 
       - name: Create decompositions
         run: |
-          gpmetis -minconn -contig -niter=200 x1.40962.graph.info 12
+          gpmetis -minconn -contig -niter=200 x1.${{matrix.mesh}}.graph.info 12
