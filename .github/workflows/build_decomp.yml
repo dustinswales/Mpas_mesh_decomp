@@ -1,1 +1,49 @@
-##
+name: Create MPAS mesh decompositions
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch: # Allows manual triggering from the Actions tab
+
+jobs:
+  build-metis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Build Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake build-essential
+
+      - name: Clone GKlib Source
+        run: |
+          git clone https://github.com/KarypisLab/GKlib.git
+          cd GKlib
+
+      - name: Configure and Build GKlib
+        run: |
+          cd GKlib
+          make config prefix=/home/runner/
+          make
+          make install
+
+      - name: Clone METIS Source
+        run: |
+          git clone https://github.com/KarypisLab/METIS.git
+          cd METIS
+
+      - name: Configure and Build METIS
+        run: |
+          cd METIS
+          make config cc=gcc prefix=/home/runner/ gklib_path=/home/runner/
+          make
+          make install
+
+      - name: Display
+        run: |
+          ls /home/runner/
