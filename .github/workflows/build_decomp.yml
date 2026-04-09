@@ -61,11 +61,11 @@ jobs:
           ls /home/runner/lib
 
       - name: Display bin
-	run: |
+        run: |
           ls /home/runner/bin
 
       - name: Display PATH
-	run: |
+        run: |
           echo $PATH
 
       - name: Download MPAS static file
