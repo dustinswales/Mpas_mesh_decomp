@@ -15,7 +15,7 @@ jobs:
         mesh: [2562, 4002, 10242, 40962]
         include:
         - mesh: 40962
-          decomps: 12,24,36,48,60,72
+          decomps: 12 24 36 48 60 72
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -57,15 +57,18 @@ jobs:
           make
           make install
 
-      - name: Display decomps
-        run: |
-          ${{matrix.decomps}}
-
       - name: Download MPAS static file
         run: |
           wget -q https://www2.mmm.ucar.edu/projects/mpas/atmosphere_meshes/x1.${{matrix.mesh}}_static.tar.gz
           tar -xvf x1.${{matrix.mesh}}_static.tar.gz
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.9.12
+
       - name: Create decompositions
         run: |
           gpmetis -minconn -contig -niter=200 x1.${{matrix.mesh}}.graph.info 12
+          cd ../../
+          ./create_decomp.py -d ${{matrix.decomps}}
