@@ -15,7 +15,7 @@ jobs:
         mesh: [40962]
         include:
         - mesh: 40962
-          decomps: [12, 24, 36, 48, 60, 72]
+          decomps: [12 24 36 48 60 72]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
