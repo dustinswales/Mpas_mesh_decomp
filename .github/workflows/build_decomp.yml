@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        mesh: [2562, 4002, 10242, 40962]
+        mesh: [40962]
         include:
         - mesh: 40962
-          decomps: 12 24 36 48 60 72
+          decomps: [12, 24, 36, 48, 60, 72]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,12 +25,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake build-essential
 
-#      - name: Cache GKlib
-#        id: cache-GKlib
-#        uses: actions/cache@v4
-#        with:
-#          path: /home/runner/GKlib/lib
-#          key: cache-GKlib-key
+      - name: Cache GKlib
+        id: cache-GKlib
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/GKlib/lib
+          key: cache-GKlib-key
 
       - name: Configure and Build GKlib
         if: steps.cache-GKlib.outputs.cache-hit != 'true'
@@ -41,12 +41,12 @@ jobs:
           make
           make install
 
-#      - name: Cache METIS
-#        id: cache-METIS
-#        uses: actions/cache@v4
-#        with:
-#          path: /home/runner/METIS/lib
-#          key: cache-METIS-key
+      - name: Cache METIS
+        id: cache-METIS
+        uses: actions/cache@v4
+        with:
+          path: /home/runner/METIS/lib
+          key: cache-METIS-key
  
       - name: Configure and Build METIS
         if: steps.cache-METIS.outputs.cache-hit != 'true'
@@ -65,6 +65,10 @@ jobs:
           echo "PATH=/home/runner/METIS/bin:$PATH" >> $GITHUB_ENV
           echo $PATH
           echo $LD_LIBRARY_PATH
+          echo "------------/home/runner/METIS/lib"
+          ls /home/runner/METIS/lib
+          echo "------------/home/runner/GKlib/lib"
+          ls /home/runner/GKlib/lib
 
       - name: Download MPAS static file
         run: |
