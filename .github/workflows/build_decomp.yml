@@ -8,11 +8,14 @@ on:
   workflow_dispatch: # Allows manual triggering from the Actions tab
 
 jobs:
-  build-metis:
+  build-decomp:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         mesh: [2562, 4002, 10242, 40962]
+        include:
+        - mesh: 40962
+          decomps: 12,24,36,48,60,72
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
