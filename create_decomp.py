@@ -15,7 +15,7 @@ def parse_args():
     return (mesh, decomps)
 #
 def main():
-#
+    # Create MPAS graph files using gpmetis.
     (mesh, decomps) = parse_args()
     for decomp in decomps:
         com = "gpmetis -minconn -contig -niter=200 x1."+str(mesh)+".graph.info "+str(decomp)
