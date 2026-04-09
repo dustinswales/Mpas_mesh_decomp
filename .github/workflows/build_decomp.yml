@@ -25,12 +25,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential cmake build-essential
 
-      - name: Cache GKlib
-        id: cache-GKlib
-        uses: actions/cache@v4
-        with:
-          path: /home/runner/GKlib/lib
-          key: cache-GKlib-key
+#      - name: Cache GKlib
+#        id: cache-GKlib
+#        uses: actions/cache@v4
+#        with:
+#          path: /home/runner/GKlib/lib
+#          key: cache-GKlib-key
 
       - name: Configure and Build GKlib
         if: steps.cache-GKlib.outputs.cache-hit != 'true'
@@ -41,12 +41,12 @@ jobs:
           make
           make install
 
-      - name: Cache METIS
-        id: cache-METIS
-        uses: actions/cache@v4
-        with:
-          path: /home/runner/METIS/lib
-          key: cache-METIS-key
+#      - name: Cache METIS
+#        id: cache-METIS
+#        uses: actions/cache@v4
+#        with:
+#          path: /home/runner/METIS/lib
+#          key: cache-METIS-key
  
       - name: Configure and Build METIS
         if: steps.cache-METIS.outputs.cache-hit != 'true'
