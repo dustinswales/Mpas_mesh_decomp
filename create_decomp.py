@@ -24,7 +24,7 @@ def main():
 
     # Create tarball with graph files
     com = "tar -cvf x1."+str(mesh)+".graph.info.tar x1."+str(mesh)+".graph.info.*"
-    result = os.system('tar -cvf graph.info.tar graph.info.*')
+    result = os.system(com)
 #
 if __name__ == '__main__':
     main()
